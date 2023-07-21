@@ -11,27 +11,31 @@ using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.Xml;
 using System.Net.Security;
+using System.Net.Mail;
 
 namespace EmailClient
 {
     // Created by little_prince
-    public class StmpClient
+    public class SmtpClient
     {
         private SslStream _secureSocket;
         //private Socket _socket;
         private byte[] _buffer;
         private string _from;
+        private string _password;
         private const string _endLine = "\r\n";
 
-        // for debug
-        
-        public StmpClient(string emailAddress, string password) 
+        //2976857809@qq.com
+        //2976857809@qq.com
+
+        public SmtpClient(string emailAddress, string password) 
         {
-            _secureSocket = SocketHelper.GetSocket("smtp.qq.com", 465);
-            
-            _buffer = new byte[256];
-            _from = emailAddress;
-            Connect(emailAddress, password);
+           
+                _buffer = new byte[256];
+                _from = emailAddress;
+                _password = password;
+                
+           
           
         }
 
@@ -52,6 +56,8 @@ namespace EmailClient
 
         public void SendEmail(string to, string subject, string text)
         {
+            _secureSocket = SocketHelper.GetSocket("smtp.qq.com", 465);
+            Connect(_from, _password);
             SendCommand("MAIL FROM:<" + _from + ">");
             ReceiveResponse();
             SendCommand("RCPT TO:<" + to + ">");

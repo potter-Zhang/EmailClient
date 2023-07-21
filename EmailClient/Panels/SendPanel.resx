@@ -57,41 +57,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="AccountButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAiCAYAAAAtZZsLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAd
-        hQAAHYUB8Bsy7AAAAKZJREFUWEftjgEKhDAMBP3/p3UDDa6loGlzsKcZGEoCDbOBXdzhUsnhUslzUIGb
-        YF5gxg2Dm2AFhuEmWIFhuAlWYBhughUYhptgBYbhJvjiwP7P3fwU72nOBxr8r7+xcpP8TeDsPcN7mmuB
-        hv/t31m8p/mBQMP/r94xuAnmBBoZNwxugnmBWXAT/KNAUc9BBW6CFRiGm2AFhuEmeBkUHS6VHC5F3PYD
-        jf2pKqHOho4AAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="InboxButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAiCAYAAAAtZZsLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAd
-        hQAAHYUB8Bsy7AAAAKZJREFUWEftjgEKhDAMBP3/p3UDDa6loGlzsKcZGEoCDbOBXdzhUsnhUslzUIGb
-        YF5gxg2Dm2AFhuEmWIFhuAlWYBhughUYhptgBYbhJvjiwP7P3fwU72nOBxr8r7+xcpP8TeDsPcN7mmuB
-        hv/t31m8p/mBQMP/r94xuAnmBBoZNwxugnmBWXAT/KNAUc9BBW6CFRiGm2AFhuEmeBkUHS6VHC5F3PYD
-        jf2pKqHOho4AAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="OutboxButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAiCAYAAAAtZZsLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAd
-        hQAAHYUB8Bsy7AAAAKVJREFUWEftjkEKgDAMBP3/p3UDDW5LPSRWWGwGBk2gYQ5wijtdKjldKnkPKnAT
-        3ChwxQ2Dm+CaQH//9o7BTfB9oL8dv1m8p/nzQH739B/Fe5r5wPENz5l7jvc0vwk0MjcN72nmA0dW3DC4
-        CVZgGG6CFRiGm2AFhuEmWIFhuAlWYBhughsFroKbYDcoeg8qcBOswDDcBCswDDfBblB0ulRyuhTxOC/M
-        2akqwobEcAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="SendEmailButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAiCAIAAACiBwxcAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAd
-        hgAAHYYBXaITgQAAAK9JREFUWEftjcsWwyAIBf3/n245MPWkiaI2ShdxVnB5TNo8i9di0Bxhsh58BlkU
-        WAWCKLAKBIE8TIzVIFuPuUxKpflCsivXX43V0zl9Ntc5oprH9adqSynVDIrfVFsZUN2j9ke17oxmHP/c
-        pt53f1qjeaXaviWaFp3Lttb1tLnZXDhiy73bQnG/GPrYydiNwNkH0hF+v7zJFofxHzFWgSAKrBnixSC7
-        wnw2fN/Ek9IbhUo7YCjHdnAAAAAASUVORK5CYII=
-</value>
-  </data>
 </root>
