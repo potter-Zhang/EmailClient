@@ -12,7 +12,7 @@ public class EmailSystem
     private const int Pop3Port = 995;
     private const string Username = "your_qq_email@qq.com";
     private const string Password = "your_password";
-    private const string ConnectionString = "Data Source=(local);Initial Catalog=EmailSystemDB;Integrated Security=True";
+    private const string ConnectionString = "Data Source=/Email.sql;Initial Catalog=EmailSystemDB;Integrated Security=True";
 
     public void RegisterUser(string username, string password)
     {
