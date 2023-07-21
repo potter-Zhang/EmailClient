@@ -110,9 +110,9 @@ public class EmailSystem
         }
     }
 
-    private void SaveEmailToSentItems(string sender, string recipient, string subject, string body)
+    private void SaveEmailToOutbox(string sender, string recipient, string subject, string body)
     {
-        string insertEmailQuery = "INSERT INTO SentItems (Sender, Recipient, Subject, Body, DateTime) VALUES (@Sender, @Recipient, @Subject, @Body, @DateTime)";
+        string insertEmailQuery = "INSERT INTO Outbox (Sender, Recipient, Subject, Body, DateTime) VALUES (@Sender, @Recipient, @Subject, @Body, @DateTime)";
 
         using (var connection = new SqlConnection(ConnectionString))
         {
@@ -130,25 +130,40 @@ public class EmailSystem
             }
         }
     }
-}
 
-public class Program
-{
-    public static void Main(string[] args)
+    public void DeleteEmailFromInbox(int emailId)
     {
-        var emailSystem = new EmailSystem();
+        string deleteEmailQuery = "DELETE FROM Inbox WHERE Id = @EmailId";
 
-        // 注册用户
-        emailSystem.RegisterUser("user1", "password1");
+        using (var connection = new SqlConnection(ConnectionString))
+        {
+            connection.Open();
 
-        // 验证用户
-        bool isValidUser = emailSystem.ValidateUser("user1", "password1");
-        Console.WriteLine($"User validation: {isValidUser}");
+            using (var command = new SqlCommand(deleteEmailQuery, connection))
+            {
+                command.Parameters.AddWithValue("@EmailId", emailId);
 
-        // 发送邮件
-        emailSystem.SendEmail("recipient@example.com", "Hello", "This is a test email.");
+                command.ExecuteNonQuery();
+            }
+        }
+    }
 
-        // 接收邮件
-        emailSystem.ReceiveEmails();
+    public void DeleteEmailFromOutbox(int emailId)
+    {
+        string deleteEmailQuery = "DELETE FROM Outbox WHERE Id = @EmailId";
+
+        using (var connection = new SqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            using (var command = new SqlCommand(deleteEmailQuery, connection))
+            {
+                command.Parameters.AddWithValue("@EmailId", emailId);
+
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }
+
+
