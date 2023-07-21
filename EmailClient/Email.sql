@@ -40,7 +40,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for SentItems
 -- ----------------------------
-DROP TABLE IF EXISTS `SentItems`;
+DROP TABLE IF EXISTS `Outbox`;
 CREATE TABLE `SentItems` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `Sender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
