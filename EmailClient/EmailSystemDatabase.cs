@@ -164,6 +164,104 @@ public class EmailSystem
             }
         }
     }
+
+    public List<Email> FindSentEmailsByUser(string userEmail)
+    {
+        string selectEmailsQuery = "SELECT Id, Recipient, Subject, DateTime FROM Outbox WHERE Sender = @UserEmail";
+
+        List<Email> emails = new List<Email>();
+
+        using (var connection = new SqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            using (var command = new SqlCommand(selectEmailsQuery, connection))
+            {
+                command.Parameters.AddWithValue("@UserEmail", userEmail);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string recipient = reader.GetString(1);
+                        string subject = reader.GetString(2);
+                        DateTime dateTime = reader.GetDateTime(3);
+
+                        Email email = new Email(id, recipient, subject, dateTime);
+                        emails.Add(email);
+                    }
+                }
+            }
+        }
+
+        return emails;
+    }
+
+    public List<Email> FindReceivedEmailsByUser(string userEmail)
+    {
+        string selectEmailsQuery = "SELECT Id, Sender, Subject, DateTime FROM Inbox WHERE Recipient = @UserEmail";
+
+        List<Email> emails = new List<Email>();
+
+        using (var connection = new SqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            using (var command = new SqlCommand(selectEmailsQuery, connection))
+            {
+                command.Parameters.AddWithValue("@UserEmail", userEmail);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string sender = reader.GetString(1);
+                        string subject = reader.GetString(2);
+                        DateTime dateTime = reader.GetDateTime(3);
+
+                        Email email = new Email(id, sender, subject, dateTime);
+                        emails.Add(email);
+                    }
+                }
+            }
+        }
+
+        return emails;
+    }
+
+    public Email FindEmailById(int emailId)
+    {
+        string selectEmailQuery = "SELECT Sender, Recipient, Subject, DateTime FROM Inbox WHERE Id = @EmailId";
+
+        using (var connection = new SqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            using (var command = new SqlCommand(selectEmailQuery, connection))
+            {
+                command.Parameters.AddWithValue("@EmailId", emailId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string sender = reader.GetString(0);
+                        string recipient = reader.GetString(1);
+                        string subject = reader.GetString(2);
+                        DateTime dateTime = reader.GetDateTime(3);
+
+                        return new Email(emailId, sender, recipient, subject, dateTime);
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    
 }
 
 
