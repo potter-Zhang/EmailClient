@@ -53,8 +53,10 @@ namespace EmailClient
                 case "InboxPanel":
                     InboxPanel inboxPanel = new InboxPanel(loginPanel.userEmailAddress, loginPanel.userPassword);
                     inboxPanel.Show();
-                    inboxPanel.FetchEmail();
                     Layout.Panel2.Controls.Add(inboxPanel);
+                    inboxPanel.FetchEmail();
+                    //t.Start();
+                    
                     
                     break;
                 default:
