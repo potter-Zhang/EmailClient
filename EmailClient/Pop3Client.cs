@@ -40,7 +40,16 @@ namespace EmailClient
             ReadResponse();
             // 检查是否成功登陆
         }
+        public int GetEmailNum()
+        {
+            SendCommand("STAT"); // 询问并获取邮箱中邮件数量
+            string response = ReadResponse();//返回值存储
+            string[] statResponse = response.Split(' ');
+            //数组的第一个元素将是服务器响应中的状态码
+            //第二个元素将是邮箱中的邮件数量。
 
+            return int.Parse(statResponse[1]);//获取数量
+        }
         public List<string> GetEmails()//获取邮件类
         {
             SendCommand("STAT"); // 询问并获取邮箱中邮件数量
@@ -53,7 +62,7 @@ namespace EmailClient
             List<string> emails = new List<string>();
 
             // 获取每封邮件
-            for (int i = 1; i <= numEmails; i++)
+            for (int i = numEmails; i >= 1; i--)
             {
                 SendCommand("RETR " + i); // 按下标索引检索邮件
                 emails.Add(ReadResponse());

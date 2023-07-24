@@ -65,13 +65,13 @@ namespace EmailClient
             ReceiveResponse();
             SendCommand("DATA");
             ReceiveResponse();
-            SendCommand("Content-Type: text/plain; charset = \"utf-8\"");
-            SendCommand("Content-Transfer-Encoding: Base64");
-            SendCommand("From:" + _from);
-            SendCommand("To:" + to);
-            SendCommand("Subject:" + subject);
-            SendCommand("");
-            SendCommand(Base64Encode(text));
+            SendCommand(
+                Email.Construct(DateTime.Now.ToString("ddd, dd MMM yyyy HH:mm:ss zz00", new System.Globalization.CultureInfo("en-us")),
+                _from,
+                to,
+                subject,
+                text
+                ));
             SendCommand(".");
             ReceiveResponse();
             SendCommand("QUIT");
