@@ -44,6 +44,7 @@ namespace EmailClient
             byte[] bytes = Encoding.Default.GetBytes(s);
             return Convert.ToBase64String(bytes);
         }
+
         private void Connect(string emailAddress, string password)
         {
             SendCommand("EHLO EmailService");
