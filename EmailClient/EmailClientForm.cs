@@ -50,6 +50,13 @@ namespace EmailClient
                     sendPanel.Show();
                     Layout.Panel2.Controls.Add(sendPanel);
                     break;
+                case "InboxPanel":
+                    InboxPanel inboxPanel = new InboxPanel(loginPanel.userEmailAddress, loginPanel.userPassword);
+                    inboxPanel.Show();
+                    inboxPanel.FetchEmail();
+                    Layout.Panel2.Controls.Add(inboxPanel);
+                    
+                    break;
                 default:
                     break;
 
@@ -70,6 +77,11 @@ namespace EmailClient
         private void AccountButton_Click(object sender, EventArgs e)
         {
             SwitchPanel("LoginPanel");
+        }
+
+        private void InboxButton_Click(object sender, EventArgs e)
+        {
+            SwitchPanel("InboxPanel");
         }
     }
 }
