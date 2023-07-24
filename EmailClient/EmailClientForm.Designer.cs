@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmailClientForm));
             this.Layout = new System.Windows.Forms.SplitContainer();
+            this.AccountButton = new System.Windows.Forms.Button();
+            this.InboxButton = new System.Windows.Forms.Button();
             this.OutboxButton = new System.Windows.Forms.Button();
             this.SendEmailButton = new System.Windows.Forms.Button();
-            this.InboxButton = new System.Windows.Forms.Button();
-            this.AccountButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Layout)).BeginInit();
             this.Layout.Panel1.SuspendLayout();
             this.Layout.SuspendLayout();
@@ -59,6 +59,36 @@
             this.Layout.Size = new System.Drawing.Size(938, 546);
             this.Layout.SplitterDistance = 241;
             this.Layout.TabIndex = 0;
+            // 
+            // AccountButton
+            // 
+            this.AccountButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.AccountButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.AccountButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.AccountButton.Image = ((System.Drawing.Image)(resources.GetObject("AccountButton.Image")));
+            this.AccountButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.AccountButton.Location = new System.Drawing.Point(0, 147);
+            this.AccountButton.Name = "AccountButton";
+            this.AccountButton.Size = new System.Drawing.Size(241, 49);
+            this.AccountButton.TabIndex = 3;
+            this.AccountButton.Text = "账号管理";
+            this.AccountButton.UseVisualStyleBackColor = false;
+            this.AccountButton.Click += new System.EventHandler(this.AccountButton_Click);
+            // 
+            // InboxButton
+            // 
+            this.InboxButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.InboxButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.InboxButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.InboxButton.Image = ((System.Drawing.Image)(resources.GetObject("InboxButton.Image")));
+            this.InboxButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.InboxButton.Location = new System.Drawing.Point(0, 98);
+            this.InboxButton.Name = "InboxButton";
+            this.InboxButton.Size = new System.Drawing.Size(241, 49);
+            this.InboxButton.TabIndex = 2;
+            this.InboxButton.Text = "收件箱";
+            this.InboxButton.UseVisualStyleBackColor = false;
+            this.InboxButton.Click += new System.EventHandler(this.InboxButton_Click);
             // 
             // OutboxButton
             // 
@@ -88,35 +118,6 @@
             this.SendEmailButton.Text = "写信";
             this.SendEmailButton.UseVisualStyleBackColor = false;
             this.SendEmailButton.Click += new System.EventHandler(this.SendEmailButton_Click);
-            // 
-            // InboxButton
-            // 
-            this.InboxButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.InboxButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.InboxButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.InboxButton.Image = ((System.Drawing.Image)(resources.GetObject("InboxButton.Image")));
-            this.InboxButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.InboxButton.Location = new System.Drawing.Point(0, 98);
-            this.InboxButton.Name = "InboxButton";
-            this.InboxButton.Size = new System.Drawing.Size(241, 49);
-            this.InboxButton.TabIndex = 2;
-            this.InboxButton.Text = "收件箱";
-            this.InboxButton.UseVisualStyleBackColor = false;
-            // 
-            // AccountButton
-            // 
-            this.AccountButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.AccountButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.AccountButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.AccountButton.Image = ((System.Drawing.Image)(resources.GetObject("AccountButton.Image")));
-            this.AccountButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.AccountButton.Location = new System.Drawing.Point(0, 147);
-            this.AccountButton.Name = "AccountButton";
-            this.AccountButton.Size = new System.Drawing.Size(241, 49);
-            this.AccountButton.TabIndex = 3;
-            this.AccountButton.Text = "账号管理";
-            this.AccountButton.UseVisualStyleBackColor = false;
-            this.AccountButton.Click += new System.EventHandler(this.AccountButton_Click);
             // 
             // EmailClientForm
             // 
