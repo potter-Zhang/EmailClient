@@ -51,29 +51,40 @@ public class EmailSystem
         }
     }
 
-    
-    private void SaveEmailToInbox(string sender, string recipient, string subject, string body)
+private void SaveEmailToInbox(int id, string sender, string recipient, string subject, string body, DateTime dateTime)
+{
+    string checkEmailExistsQuery = "SELECT COUNT(*) FROM Inbox WHERE Id = @Id";
+    string insertEmailQuery = "INSERT INTO Inbox (Id, Sender, Recipient, Subject, Body, DateTime) VALUES (@Id, @Sender, @Recipient, @Subject, @Body, @DateTime)";
+    using (var connection = new SqlConnection(ConnectionString))
     {
-        string insertEmailQuery = "INSERT INTO Inbox (Sender, Recipient, Subject, Body, DateTime) VALUES (@Sender, @Recipient, @Subject, @Body, @DateTime)";
-
-        using (var connection = new SqlConnection(ConnectionString))
+        connection.Open();
+        // Check if email with the given id already exists in the Inbox table
+        using (var checkCommand = new SqlCommand(checkEmailExistsQuery, connection))
         {
-            connection.Open();
+            checkCommand.Parameters.AddWithValue("@Id", id);
 
-            using (var command = new SqlCommand(insertEmailQuery, connection))
+            int count = (int)checkCommand.ExecuteScalar();
+
+            if (count > 0)
             {
-                command.Parameters.AddWithValue("@Sender", sender);
-                command.Parameters.AddWithValue("@Recipient", recipient);
-                command.Parameters.AddWithValue("@Subject", subject);
-                command.Parameters.AddWithValue("@Body", body);
-                command.Parameters.AddWithValue("@DateTime", DateTime.Now);
-
-                command.ExecuteNonQuery();
+                return;
             }
         }
-    }
+        using (var insertCommand = new SqlCommand(insertEmailQuery, connection))
+        {
+            insertCommand.Parameters.AddWithValue("@Id", id);
+            insertCommand.Parameters.AddWithValue("@Sender", sender);
+            insertCommand.Parameters.AddWithValue("@Recipient", recipient);
+            insertCommand.Parameters.AddWithValue("@Subject", subject);
+            insertCommand.Parameters.AddWithValue("@Body", body);
+            insertCommand.Parameters.AddWithValue("@DateTime", dateTime);
 
-    private void SaveEmailToOutbox(string sender, string recipient, string subject, string body)
+            insertCommand.ExecuteNonQuery();
+        }
+    }
+}
+
+    private void SaveEmailToOutbox(string sender, string recipient, string subject, string body,DateTime dateTime)
     {
         string insertEmailQuery = "INSERT INTO Outbox (Sender, Recipient, Subject, Body, DateTime) VALUES (@Sender, @Recipient, @Subject, @Body, @DateTime)";
 
@@ -87,7 +98,7 @@ public class EmailSystem
                 command.Parameters.AddWithValue("@Recipient", recipient);
                 command.Parameters.AddWithValue("@Subject", subject);
                 command.Parameters.AddWithValue("@Body", body);
-                command.Parameters.AddWithValue("@DateTime", DateTime.Now);
+                command.Parameters.AddWithValue("@DateTime", datatime);
 
                 command.ExecuteNonQuery();
             }
