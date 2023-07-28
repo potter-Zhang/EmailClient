@@ -31,8 +31,7 @@ namespace EmailClient.Panels
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            EmailAddressTextBox.Text = "2976857809@qq.com";
-            PasswordTextBox.Text = "gldfmsjjpntbdhec";
+            
             userEmailAddress = EmailAddressTextBox.Text;
             userPassword = PasswordTextBox.Text;
             emailSystem.CreateTables();
