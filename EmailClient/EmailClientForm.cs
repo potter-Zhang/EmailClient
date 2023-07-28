@@ -14,6 +14,7 @@ namespace EmailClient
     public partial class EmailClientForm : Form
     {
         LoginPanel loginPanel;
+        InboxPanel inboxPanel;
 
         public EmailClientForm()
         {
@@ -51,10 +52,11 @@ namespace EmailClient
                     Layout.Panel2.Controls.Add(sendPanel);
                     break;
                 case "InboxPanel":
-                    InboxPanel inboxPanel = new InboxPanel(loginPanel.userEmailAddress, loginPanel.userPassword);
+                    if (inboxPanel == null)
+                        inboxPanel = new InboxPanel(loginPanel.userEmailAddress, loginPanel.userPassword);
                     inboxPanel.Show();
                     Layout.Panel2.Controls.Add(inboxPanel);
-                    inboxPanel.FetchEmail();
+                    //inboxPanel.FetchEmail();
                     //t.Start();
                     
                     

@@ -35,6 +35,7 @@
             this.CheckButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.GetButton = new System.Windows.Forms.Button();
+            this.StatusLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // InboxListView
@@ -83,6 +84,7 @@
             this.DeleteButton.TabIndex = 2;
             this.DeleteButton.Text = "删除";
             this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // GetButton
             // 
@@ -94,10 +96,18 @@
             this.GetButton.UseVisualStyleBackColor = true;
             this.GetButton.Click += new System.EventHandler(this.GetButton_Click);
             // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Location = new System.Drawing.Point(102, 36);
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(493, 32);
+            this.StatusLabel.TabIndex = 4;
+            // 
             // InboxPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.GetButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.CheckButton);
@@ -117,5 +127,6 @@
         private ColumnHeader Subject;
         private ColumnHeader Date;
         private Button GetButton;
+        private Label StatusLabel;
     }
 }
