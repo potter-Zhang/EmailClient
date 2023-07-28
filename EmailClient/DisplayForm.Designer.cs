@@ -31,8 +31,8 @@
             this.ContentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.SubjectTextBox = new System.Windows.Forms.TextBox();
             this.SubjectLabel = new System.Windows.Forms.Label();
-            this.FromTextBox = new System.Windows.Forms.TextBox();
-            this.FromLabel = new System.Windows.Forms.Label();
+            this.MailTextBox = new System.Windows.Forms.TextBox();
+            this.MailLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ContentRichTextBox
@@ -62,22 +62,22 @@
             this.SubjectLabel.TabIndex = 12;
             this.SubjectLabel.Text = "主题：";
             // 
-            // FromTextBox
+            // MailTextBox
             // 
-            this.FromTextBox.Location = new System.Drawing.Point(238, 17);
-            this.FromTextBox.Name = "FromTextBox";
-            this.FromTextBox.ReadOnly = true;
-            this.FromTextBox.Size = new System.Drawing.Size(274, 30);
-            this.FromTextBox.TabIndex = 11;
+            this.MailTextBox.Location = new System.Drawing.Point(238, 17);
+            this.MailTextBox.Name = "MailTextBox";
+            this.MailTextBox.ReadOnly = true;
+            this.MailTextBox.Size = new System.Drawing.Size(274, 30);
+            this.MailTextBox.TabIndex = 11;
             // 
-            // FromLabel
+            // MailLabel
             // 
-            this.FromLabel.AutoSize = true;
-            this.FromLabel.Location = new System.Drawing.Point(123, 20);
-            this.FromLabel.Name = "FromLabel";
-            this.FromLabel.Size = new System.Drawing.Size(82, 24);
-            this.FromLabel.TabIndex = 10;
-            this.FromLabel.Text = "寄件人：";
+            this.MailLabel.AutoSize = true;
+            this.MailLabel.Location = new System.Drawing.Point(123, 20);
+            this.MailLabel.Name = "MailLabel";
+            this.MailLabel.Size = new System.Drawing.Size(82, 24);
+            this.MailLabel.TabIndex = 10;
+            this.MailLabel.Text = "寄件人：";
             // 
             // DisplayForm
             // 
@@ -87,8 +87,8 @@
             this.Controls.Add(this.ContentRichTextBox);
             this.Controls.Add(this.SubjectTextBox);
             this.Controls.Add(this.SubjectLabel);
-            this.Controls.Add(this.FromTextBox);
-            this.Controls.Add(this.FromLabel);
+            this.Controls.Add(this.MailTextBox);
+            this.Controls.Add(this.MailLabel);
             this.Name = "DisplayForm";
             this.Text = "DisplayForm";
             this.ResumeLayout(false);
@@ -101,7 +101,7 @@
         private RichTextBox ContentRichTextBox;
         private TextBox SubjectTextBox;
         private Label SubjectLabel;
-        private TextBox FromTextBox;
-        private Label FromLabel;
+        private TextBox MailTextBox;
+        private Label MailLabel;
     }
 }

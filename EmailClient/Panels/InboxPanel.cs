@@ -68,7 +68,7 @@ namespace EmailClient.Panels
                 {
                     ChangeStatus("Checking email " + i);
                     string UID;
-                    if (emailSystem.FindEmailById((UID = pop3Client.GetId(i))) == null)
+                    if (emailSystem.FindReceivedEmailById((UID = pop3Client.GetId(i))) == null)
                     {
                         Email email = Email.Parse(pop3Client.GetEmail(i));
                         emailSystem.SaveEmailToInbox(UID, email.sender, emailAddress, email.subject, email.body, Email.String2DateTime(email.date));
@@ -156,13 +156,13 @@ namespace EmailClient.Panels
                 MessageBox.Show("请先选择一封邮件", "提示", MessageBoxButtons.OK);
                 return;
             }
-            Email email = emailSystem.FindEmailById(Ids[InboxListView.SelectedIndices[0]]);
+            Email email = emailSystem.FindReceivedEmailById(Ids[InboxListView.SelectedIndices[0]]);
             if (email == null)
             {
                 MessageBox.Show("error: email not found");
                 return;
             }
-            DisplayForm disp = new DisplayForm(email.sender, email.subject, email.body);
+            DisplayForm disp = new DisplayForm(new Sender() { sender = email.sender }, email.subject, email.body);
             disp.Show();
         }
 
@@ -173,15 +173,17 @@ namespace EmailClient.Panels
 
         private void GetButton_Click(object sender, EventArgs e)
         {
-            if (task != null)
-                task.Dispose();
-            
+           if (task != null && !task.IsCompleted)
+            {
+                MessageBox.Show("获取未完成");
+                return;
+            }
+           
             task = Task.Factory.StartNew(() =>
             {
                UpdateListView(); FetchEmail();
-            }, TaskCreationOptions.LongRunning | TaskCreationOptions.RunContinuationsAsynchronously | TaskCreationOptions.DenyChildAttach);
-            //UpdateListView();
-            //FetchEmail();
+            },TaskCreationOptions.LongRunning | TaskCreationOptions.RunContinuationsAsynchronously | TaskCreationOptions.DenyChildAttach);
+           
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -192,10 +194,10 @@ namespace EmailClient.Panels
                 return;
             }
             emailSystem.DeleteEmailFromInbox(Ids[InboxListView.SelectedIndices[0]]);
-            
+
             //messageIds.RemoveAt(numOfEmailsFromLocal - 1 - InboxListView.SelectedIndices[0]);
-            
-            InboxListView.Items.RemoveAt(InboxListView.SelectedIndices[0]);
+            UpdateListView();
+            //InboxListView.Items.RemoveAt(InboxListView.SelectedIndices[0]);
             
             numOfEmailsFromLocal--;
             numOfEmailsFromServer = 0;

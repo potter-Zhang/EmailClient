@@ -55,7 +55,7 @@ namespace EmailClient
        
         }
 
-        public void SendEmail(string to, string subject, string text)
+        public string SendEmail(string to, string subject, string text)
         {
             _secureSocket = SocketHelper.GetSocket("smtp.qq.com", 465);
             Connect(_from, _password);
@@ -65,8 +65,9 @@ namespace EmailClient
             ReceiveResponse();
             SendCommand("DATA");
             ReceiveResponse();
+            string dateTime = DateTime.Now.ToString("ddd, dd MMM yyyy HH:mm:ss zz00", new System.Globalization.CultureInfo("en-us"));
             SendCommand(
-                Email.Construct(DateTime.Now.ToString("ddd, dd MMM yyyy HH:mm:ss zz00", new System.Globalization.CultureInfo("en-us")),
+                Email.Construct(dateTime,
                 _from,
                 to,
                 subject,
@@ -76,6 +77,7 @@ namespace EmailClient
             ReceiveResponse();
             SendCommand("QUIT");
             ReceiveResponse();
+            return dateTime;
         }
 
 

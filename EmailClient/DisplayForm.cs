@@ -12,15 +12,28 @@ using System.Xml.Linq;
 
 namespace EmailClient
 {
+    public struct Sender { public string sender; }
+    public struct Receiver { public string receiver; }
     public partial class DisplayForm : Form
     {
-        public DisplayForm(string sender, string subject, string body)
+        public DisplayForm(Sender s, string subject, string body)
         {
             InitializeComponent();
-            FromTextBox.Text = sender;
+            MailLabel.Text = "寄件人";
+            MailTextBox.Text = s.sender;
             SubjectTextBox.Text = subject;
             ContentRichTextBox.Text = body;
         }
+
+        public DisplayForm(Receiver r, string subject, string body)
+        {
+            InitializeComponent();
+            MailLabel.Text = "收件人";
+            MailTextBox.Text = r.receiver;
+            SubjectTextBox.Text = subject;
+            ContentRichTextBox.Text = body;
+        }
+
 
         private void ContentRichTextBox_TextChanged(object sender, EventArgs e)
         {

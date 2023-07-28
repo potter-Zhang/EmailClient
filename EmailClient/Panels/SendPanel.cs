@@ -16,6 +16,7 @@ namespace EmailClient.Panels
         string emailAddress;
         string password;
         SmtpClient smtpClient;
+        EmailSystem emailSystem;
 
         public SendPanel(string emailAddress, string password)
         {
@@ -23,6 +24,7 @@ namespace EmailClient.Panels
             this.emailAddress = emailAddress;
             this.password = password;
             smtpClient = new SmtpClient(emailAddress, password);
+            emailSystem = new EmailSystem();
         }
 
         private void SendButton_Click(object sender, EventArgs e)
@@ -35,7 +37,8 @@ namespace EmailClient.Panels
 
             try
             {
-                smtpClient.SendEmail(ToTextBox.Text, SubjectTextBox.Text, ContentRichTextBox.Text);
+                string dateTime = smtpClient.SendEmail(ToTextBox.Text, SubjectTextBox.Text, ContentRichTextBox.Text);
+                emailSystem.SaveEmailToOutbox(Guid.NewGuid().ToString(), emailAddress, ToTextBox.Text, SubjectTextBox.Text, ContentRichTextBox.Text, Email.String2DateTime(dateTime));
                 MessageBox.Show("成功发送邮件！", "", MessageBoxButtons.OK);
             }
             catch (Exception ex)
