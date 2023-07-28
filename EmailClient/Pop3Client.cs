@@ -12,28 +12,40 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.Xml;
 using System.Net.Security;
 using System.Net.Mail;
+using System.Security.Cryptography.X509Certificates;
+
 
 
 namespace EmailClient
 {
-    public class Pop3Client
+    public class Pop3Client : IDisposable
     {
         //private TcpClient _client; // TcpClient 类型的字段，用于建立与服务器的 TCP 连接
         private SslStream _stream; //NetworkStream 类型的字段，用于通过 TCP 连接进行数据读写
         private byte[] _buffer;//用于存储从服务器接收到的数据
+        private string _server;
+        private int _port;
+        private const int bufSize = 4096;        //private readonly EmailSystem _emailSystem;
 
-        public Pop3Client(string server, int port)
+
+
+        public Pop3Client(string server, int port/*, string connectionString*/)
         {
             //_client = new TcpClient(server, port);//表示pop3服务器地址和端口号
-            _stream = SocketHelper.GetSocket("pop.qq.com", 995);//通过网络完成与服务器之间的
-            _buffer = new byte[4096];//小缓冲区存储数据
+            //通过网络完成与服务器之间的
+            _server = server;
+            _port = port;
+            _buffer = new byte[bufSize];//小缓冲区存储数据
+            //_emailSystem = new EmailSystem(connectionString);
 
             // 阅读服务器消息
-            ReadResponse();
+            
         }
 
         public void Connect(string emailAddress, string password)
         {
+            _stream = SocketHelper.GetSocket(_server, _port);
+            ReadResponse();
             SendCommand("USER " + emailAddress);
             ReadResponse();
             SendCommand("PASS " + password);
@@ -50,6 +62,24 @@ namespace EmailClient
 
             return int.Parse(statResponse[1]);//获取数量
         }
+
+        public string GetEmail(int index)
+        {
+            if (index > GetEmailNum())
+                return string.Empty;
+            SendCommand("RETR " + index);
+            return ReadResponse();  
+
+        }
+
+        public string GetId(int index)
+        {
+            
+            SendCommand("UIDL " + index);
+            string ans = ReadResponse();
+            string[] ansResponse = ans.Split(" ");
+            return ansResponse[2] + "@qq.com";
+        }
         public List<string> GetEmails()//获取邮件类
         {
             SendCommand("STAT"); // 询问并获取邮箱中邮件数量
@@ -64,12 +94,36 @@ namespace EmailClient
             // 获取每封邮件
             for (int i = numEmails; i >= 1; i--)
             {
+                SendCommand("LIST " + i);
+                int size = int.Parse(ReadResponse().Split(" ")[2]);
                 SendCommand("RETR " + i); // 按下标索引检索邮件
                 emails.Add(ReadResponse());
             }
 
             return emails;//获取到所有的邮件内容存储到emails中以供使用
         }
+
+        public void DeleteEmail(int emailIndex)//用DELE命令来标记需要删除的邮件，在quit后直接在服务器中删除
+        {
+            SendCommand("DELE " + emailIndex);
+            ReadResponse();
+
+            //_emailSystem.DeleteEmailFromInbox(emailIndex);
+        }
+        /// <summary>
+        /// 此处做弹窗连接选择是否删除服务器中邮件
+        /// </summary>
+
+
+
+        public void Dispose()
+        {
+            // 在 Dispose 方法中释放资源，例如关闭与服务器的连接
+            Disconnect();
+
+            //_emailSystem.Dispose();
+        }
+
 
         private void SendCommand(string cmd)//向服务器发送命令通信
         {
@@ -78,19 +132,25 @@ namespace EmailClient
             _stream.Write(bytes, 0, bytes.Length);
         }
 
+        
+
         private string ReadResponse()//响应数据，并将其读取为字符串
         {
             StringBuilder responseBuilder = new StringBuilder();
             int bytesRead;
-           
-            
+
+
             do
             {
                 bytesRead = _stream.Read(_buffer);
+                if (bytesRead == 0)
+                    break;
+                string s = Encoding.ASCII.GetString(_buffer, 0, bytesRead);
+                
                 responseBuilder.Append(Encoding.ASCII.GetString(_buffer, 0, bytesRead));
 
-            } while (bytesRead == 4096);
-           
+            } while (bytesRead == bufSize);
+
 
             return responseBuilder.ToString();
         }
@@ -108,50 +168,77 @@ namespace EmailClient
         private readonly int _pop3Port;
         private readonly string _emailAddress;
         private readonly string _emailPassword;
+        private readonly string _connectionString;
 
-        public MyPop3Client(string pop3Address, int pop3Port, string emailAddress, string emailPassword)
+        public MyPop3Client(string pop3Address, int pop3Port, string emailAddress, string emailPassword, string connectionString)
         {
             _pop3Address = pop3Address;
             _pop3Port = pop3Port;
             _emailAddress = emailAddress;
             _emailPassword = emailPassword;
+            _connectionString = connectionString;
         }
 
-        /*     public List<string> GetEmails()
-             {
-                 using (var pop3Client = new Pop3Client(_pop3Address, _pop3Port))
-                 {
-                     pop3Client.Connect(_emailAddress, _emailPassword);//验证登录pop3服务器
-                     return pop3Client.GetEmails();
-                 }
-             }存储到列表LIst中将获得的内容
-        */
-
-    }
-
-
-    /*
-    class Program
-    {
-        static void Main(string[] args)
+        public List<string> GetEmailsAndDeleteMarked()
         {
-            string pop3Address = "pop.qq.com";//连接服务器
-            int pop3Port = 995;//端口号
-            string emailAddress = "email@qq.com";
-            string emailPassword = "password";
+            var pop3Client = new Pop3Client(_pop3Address, _pop3Port);
+            pop3Client.Connect(_emailAddress, _emailPassword); // 验证登录到pop3服务器
+            List<string> emails = pop3Client.GetEmails(); // 获取邮件内容
 
-            MyPop3Client client = new MyPop3Client(pop3Address, pop3Port, emailAddress, emailPassword);
-         //连接服务器代码
-
-            List<string> emails = client.GetEmails();
-            foreach (string email in emails)
+            // 标记需要删除的邮件
+            for (int i = 1; i <= emails.Count; i++)
             {
-                Console.WriteLine(email);
-                //直接输出文件内容，也可以在此处改为存储文件内容到数据库中
+                pop3Client.DeleteEmail(i); // 使用DELE命令标记需要删除的邮件，并在数据库中删除
             }
 
-            Console.WriteLine("Done");//结束
+            pop3Client.Dispose(); // 手动调用 Dispose() 方法释放资源
+
+            return emails;
         }
+
+        public void ViewEmails()
+        {
+            EmailSystem emailSystem = null;
+            try
+            {
+                string connectionString = "Data Source=/Email.sql;Initial Catalog=EmailSystemDB;Integrated Security=True";
+                emailSystem = new EmailSystem();
+                // 假设 MyPop3Client 已知当前用户的邮箱地址和密码
+                // string emailAddress = emailAddress;
+                // string emailPassword = emailPassword;
+
+                if (emailSystem.ValidateUser(_emailAddress, _emailPassword))
+                {
+                    // 登录成功，获取并查看邮件内容
+                    List<string> emails = GetEmailsAndDeleteMarked();
+
+                    // 输出邮件内容
+                    foreach (string email in emails)
+                    {
+                        Console.WriteLine(email);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("登录失败，请检查您的邮箱地址和密码。");
+                }
+            }
+            finally
+            {
+                if (emailSystem != null)
+                {
+                    emailSystem.Dispose();
+                }
+            }
+        }
+
+
+
+
     }
-    */
+
+
+
+
+
 }

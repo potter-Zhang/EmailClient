@@ -32,6 +32,23 @@ namespace EmailClient
             this.body = body;
         }
 
+        public static DateTime String2DateTime(string dateStr)
+        {
+            //"ddd, dd MMM yyyy HH:mm:ss zz00"
+            DateTime date;
+            string format =  "ddd, dd MMM yyyy HH:mm:ss zz";
+            try
+            {
+                date = DateTime.ParseExact(dateStr.Substring(0, format.Length + 1), format, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch(FormatException fe)
+            {
+                date = DateTime.MinValue;
+            }
+            return date;
+            
+        }
+
         private static string Base64Decode(string str, Encoding encode)
         {
             try
