@@ -14,11 +14,13 @@ namespace EmailClient.Panels
     {
         public string userEmailAddress;
         public string userPassword;
+        EmailSystem emailSystem;
         
         private void Init()
         {
             userEmailAddress = string.Empty;
             userPassword = string.Empty;
+            emailSystem = new EmailSystem();
         }
 
         public LoginPanel()
@@ -29,9 +31,11 @@ namespace EmailClient.Panels
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            
+            EmailAddressTextBox.Text = "2976857809@qq.com";
+            PasswordTextBox.Text = "gldfmsjjpntbdhec";
             userEmailAddress = EmailAddressTextBox.Text;
             userPassword = PasswordTextBox.Text;
+            emailSystem.CreateTables();
             MessageBox.Show("成功登录", "", MessageBoxButtons.OK);
         }
     }
