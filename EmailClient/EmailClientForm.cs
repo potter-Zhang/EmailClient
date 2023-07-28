@@ -15,6 +15,7 @@ namespace EmailClient
     {
         LoginPanel loginPanel;
         InboxPanel inboxPanel;
+        OutboxPanel outboxPanel;
 
         public EmailClientForm()
         {
@@ -56,9 +57,14 @@ namespace EmailClient
                         inboxPanel = new InboxPanel(loginPanel.userEmailAddress, loginPanel.userPassword);
                     inboxPanel.Show();
                     Layout.Panel2.Controls.Add(inboxPanel);
-                    //inboxPanel.FetchEmail();
-                    //t.Start();
-                    
+                    break;
+                //inboxPanel.FetchEmail();
+                //t.Start();
+                case "OutboxPanel":
+                    outboxPanel = new OutboxPanel(loginPanel.userEmailAddress);
+                    outboxPanel.Show();
+                    Layout.Panel2.Controls.Add(outboxPanel);
+                    //outboxPanel.UpdateListView();
                     
                     break;
                 default:
@@ -86,6 +92,11 @@ namespace EmailClient
         private void InboxButton_Click(object sender, EventArgs e)
         {
             SwitchPanel("InboxPanel");
+        }
+
+        private void OutboxButton_Click(object sender, EventArgs e)
+        {
+            SwitchPanel("OutboxPanel");
         }
     }
 }

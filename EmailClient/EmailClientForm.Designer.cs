@@ -103,6 +103,7 @@
             this.OutboxButton.TabIndex = 1;
             this.OutboxButton.Text = "发件箱";
             this.OutboxButton.UseVisualStyleBackColor = false;
+            this.OutboxButton.Click += new System.EventHandler(this.OutboxButton_Click);
             // 
             // SendEmailButton
             // 

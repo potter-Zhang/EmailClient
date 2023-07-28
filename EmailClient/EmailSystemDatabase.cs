@@ -312,7 +312,7 @@ namespace EmailClient
         public void CreateTables()
         {
             string createInbox = "CREATE TABLE IF NOT EXISTS Inbox (ID TEXT PRIMARY KEY, Sender TEXT, Recipient TEXT, Subject TEXT, Body TEXT, DateTime DATETIME);";
-            string createOutbox = "CREATE TABLE IF NOT EXISTS Outbox (ID INTEGER PRIMARY KEY AUTOINCREMENT, Sender TEXT, Recipient TEXT, Subject TEXT, Body TEXT, DataTime DATETIME);";
+            string createOutbox = "CREATE TABLE IF NOT EXISTS Outbox (ID TEXT PRIMARY KEY, Sender TEXT, Recipient TEXT, Subject TEXT, Body TEXT, DateTime DATETIME);";
             string createUsers = "CREATE TABLE IF NOT EXISTS Users (Username TEXT NOT NULL, Password TEXT NOT NULL);";
 
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -335,28 +335,27 @@ namespace EmailClient
                 }
             }
         }
-        /*
-            public void SaveEmailToOutbox(string sender, string recipient, string subject, string body)
+        public void SaveEmailToOutbox(string id, string sender, string recipient, string subject, string body, DateTime date)
+        {
+            string insertEmailQuery = "INSERT INTO Outbox (Id, Sender, Recipient, Subject, Body, DateTime) VALUES (@Id, @Sender, @Recipient, @Subject, @Body, @DateTime)";
+
+            using (var connection = new SQLiteConnection(ConnectionString))
             {
-                string insertEmailQuery = "INSERT INTO Outbox (Sender, Recipient, Subject, Body, DateTime) VALUES (@Sender, @Recipient, @Subject, @Body, @DateTime)";
+                connection.Open();
 
-                using (var connection = new SqlConnection(ConnectionString))
+                using (var command = new SQLiteCommand(insertEmailQuery, connection))
                 {
-                    connection.Open();
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Sender", sender);
+                    command.Parameters.AddWithValue("@Recipient", recipient);
+                    command.Parameters.AddWithValue("@Subject", subject);
+                    command.Parameters.AddWithValue("@Body", body);
+                    command.Parameters.AddWithValue("@DateTime", date); 
 
-                    using (var command = new SQLiteCommand(insertEmailQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@Sender", sender);
-                        command.Parameters.AddWithValue("@Recipient", recipient);
-                        command.Parameters.AddWithValue("@Subject", subject);
-                        command.Parameters.AddWithValue("@Body", body);
-                        command.Parameters.AddWithValue("@DateTime", DateTime.Now);
-
-                        command.ExecuteNonQuery();
-                    }
+                    command.ExecuteNonQuery();
                 }
             }
-        */
+        }
         public void SaveEmailToInbox(string id, string sender, string recipient, string subject, string body, DateTime dateTime)
         {
             string insertEmailQuery = "INSERT INTO Inbox (Id, Sender, Recipient, Subject, Body, DateTime) VALUES (@Id, @Sender, @Recipient, @Subject, @Body, @DateTime)";
@@ -378,7 +377,7 @@ namespace EmailClient
                 }
             }
         }
-        public Email FindEmailById(string emailId)
+        public Email FindReceivedEmailById(string emailId)
         {
             string selectEmailQuery = "SELECT * FROM Inbox WHERE Id = @EmailId";
 
@@ -444,6 +443,74 @@ namespace EmailClient
             return emails;
         }
 
+        public Email FindSentEmailById(string emailId)
+        {
+            string selectEmailQuery = "SELECT * FROM Outbox WHERE Id = @EmailId";
+
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SQLiteCommand(selectEmailQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@EmailId", emailId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string id = reader.GetString(0);
+                            string sender = reader.GetString(1);
+                            string receiver = reader.GetString(2);
+
+                            string subject = reader.GetString(3);
+                            string body = reader.GetString(4);
+                            DateTime dateTime = reader.GetDateTime(5);
+
+                            Email email = new Email(id, sender, receiver, dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss zz00"), subject, body);
+                            return email;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public List<Email> FindSentEmailsByUser(string userEmail)
+        {
+            string selectEmailsQuery = "SELECT Id, Sender, Subject, DateTime FROM Outbox WHERE Sender = @UserEmail ORDER BY DateTime DESC";
+
+            List<Email> emails = new List<Email>();
+
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SQLiteCommand(selectEmailsQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@UserEmail", userEmail);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string id = reader.GetString(0);
+                            string sender = reader.GetString(1);
+                            string subject = reader.GetString(2);
+                            DateTime dateTime = reader.GetDateTime(3);
+
+                            Email email = new Email(id, sender, userEmail, dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss zz00"), subject, "");
+                            emails.Add(email);
+                        }
+                    }
+                }
+            }
+
+            return emails;
+        }
+
+
         public void DeleteEmailFromInbox(string emailId)
         {
             string deleteEmailQuery = "DELETE FROM Inbox WHERE Id = @EmailId";
@@ -461,7 +528,7 @@ namespace EmailClient
             }
         }
 
-        public void DeleteEmailFromOutbox(int emailId)
+        public void DeleteEmailFromOutbox(string emailId)
         {
             string deleteEmailQuery = "DELETE FROM Outbox WHERE Id = @EmailId";
 
@@ -489,7 +556,10 @@ namespace EmailClient
             if (!Directory.Exists(Environment.CurrentDirectory + "\\Data"))
                 Directory.CreateDirectory(Environment.CurrentDirectory + "\\Data");
             if (!File.Exists(dbFile))
+            {
                 SQLiteConnection.CreateFile(dbFile);
+               
+            }
         }
 
 
