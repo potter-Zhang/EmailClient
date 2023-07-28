@@ -31,8 +31,7 @@ namespace EmailClient.Panels
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            EmailAddressTextBox.Text = "2976857809@qq.com";
-            PasswordTextBox.Text = "ezpppyofkgxvdfag";
+            
             if (!EmailAddressTextBox.Text.EndsWith("@qq.com"))
             {
                 MessageBox.Show("只支持qq邮箱", "提示", MessageBoxButtons.OK);
