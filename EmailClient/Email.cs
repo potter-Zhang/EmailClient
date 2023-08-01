@@ -19,7 +19,7 @@ namespace EmailClient
         public string receiver;
         public string subject;
         public string body;
-        string endLine = "\r\n";
+        //string endLine = "\r\n";
 
         public Email(string id, string sender, string receiver, string date, string subject, string body)
         {
