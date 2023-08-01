@@ -21,19 +21,21 @@ namespace EmailClient
         private SslStream _secureSocket;
         //private Socket _socket;
         private byte[] _buffer;
-        private string _from;
-        private string _password;
+     
+        private string _server;
+        private int _port;
         private const string _endLine = "\r\n";
 
         //2976857809@qq.com
         //2976857809@qq.com
 
-        public SmtpClient(string emailAddress, string password) 
+        public SmtpClient(string server, int port) 
         {
            
-                _buffer = new byte[256];
-                _from = emailAddress;
-                _password = password;
+            _buffer = new byte[256];
+        
+            _server = server;
+            _port = port;
                 
            
           
@@ -47,19 +49,21 @@ namespace EmailClient
 
         private void Connect(string emailAddress, string password)
         {
+            _secureSocket = SocketHelper.GetSocket(_server, _port);//("smtp.qq.com", 465);
             SendCommand("EHLO EmailService");
             ReceiveResponse();
 
             SendCommand("AUTH PLAIN " + Base64Encode("\0" + emailAddress + "\0" + password));
             ReceiveResponse();
+            
        
         }
 
-        public string SendEmail(string to, string subject, string text)
+        public string SendEmail(string from, string password, string to, string subject, string text)
         {
-            _secureSocket = SocketHelper.GetSocket("smtp.qq.com", 465);
-            Connect(_from, _password);
-            SendCommand("MAIL FROM:<" + _from + ">");
+            
+            Connect(from, password);
+            SendCommand("MAIL FROM:<" + from + ">");
             ReceiveResponse();
             SendCommand("RCPT TO:<" + to + ">");
             ReceiveResponse();
@@ -68,7 +72,7 @@ namespace EmailClient
             string dateTime = DateTime.Now.ToString("ddd, dd MMM yyyy HH:mm:ss zz00", new System.Globalization.CultureInfo("en-us"));
             SendCommand(
                 Email.Construct(dateTime,
-                _from,
+                from,
                 to,
                 subject,
                 text
