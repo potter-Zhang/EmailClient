@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EmailClient.Panels.InboxPanel" Collapsed="true">
+    <Position X="4.75" Y="5" Width="1.5" />
+    <AssociationLine Name="emailSystem" Type="EmailClient.EmailSystem" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="5.677" />
+        <Point X="5.75" Y="6.812" />
+        <Point X="7.25" Y="6.812" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="pop3Client" Type="EmailClient.Pop3Client" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.344" Y="5.677" />
+        <Point X="5.344" Y="6.812" />
+        <Point X="4" Y="6.812" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACQBAACCAAQIAkAIGAAAAGAAUAAgADIkAAA4BI4AA=</HashCode>
+      <FileName>Panels\InboxPanel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="emailSystem" />
+      <Field Name="pop3Client" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EmailClient.EmailSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAQAAgCAAKEAABAAAAAAAgAAIAAAICCAAAAAAAEA=</HashCode>
+      <FileName>EmailSystemDatabase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EmailClient.Pop3Client" Collapsed="true">
+    <Position X="2.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMQAAAAgCCAIAAgAQAAAAIAAAAAAAAAACAAAAAIAgBA=</HashCode>
+      <FileName>Pop3Client.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

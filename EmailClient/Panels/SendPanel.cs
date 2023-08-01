@@ -23,7 +23,7 @@ namespace EmailClient.Panels
             InitializeComponent();
             this.emailAddress = emailAddress;
             this.password = password;
-            smtpClient = new SmtpClient(emailAddress, password);
+            smtpClient = new SmtpClient("smtp.qq.com", 465);
             emailSystem = new EmailSystem();
         }
 
@@ -37,7 +37,7 @@ namespace EmailClient.Panels
 
             try
             {
-                string dateTime = smtpClient.SendEmail(ToTextBox.Text, SubjectTextBox.Text, ContentRichTextBox.Text);
+                string dateTime = smtpClient.SendEmail(emailAddress, password, ToTextBox.Text, SubjectTextBox.Text, ContentRichTextBox.Text);
                 emailSystem.SaveEmailToOutbox(Guid.NewGuid().ToString(), emailAddress, ToTextBox.Text, SubjectTextBox.Text, ContentRichTextBox.Text, Email.String2DateTime(dateTime));
                 MessageBox.Show("成功发送邮件！", "", MessageBoxButtons.OK);
             }
