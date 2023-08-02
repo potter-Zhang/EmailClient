@@ -16,15 +16,9 @@ namespace EmailClient.Panels
         string emailAddress;
         string password;
         Pop3Client pop3Client;
-        List<string> emails;
-        List<string> messageIds;
-
+     
         Dictionary<int, string> Ids;
         EmailSystem emailSystem;
-
-        int numOfEmailsFromServer;
-        int numOfEmailsFromLocal;
-        int numOfNewEmails;
 
         Task task;
 
@@ -35,15 +29,11 @@ namespace EmailClient.Panels
             Setup();
             this.emailAddress = emailAddress;
             this.password = password;
-            
-            messageIds = new List<string>();
-            
             pop3Client = new Pop3Client(pop3Server, pop3Port);
-            //pop3Client.Connect(emailAddress, password);
+
             emailSystem = new EmailSystem();
             Ids = new Dictionary<int, string>();
-            numOfEmailsFromLocal= 0;
-            numOfEmailsFromServer= 0;
+          
         }
 
         
@@ -57,10 +47,7 @@ namespace EmailClient.Panels
                 // get new emails and update database
                 ChangeStatus("connect succeeded!");
                 int num = pop3Client.GetEmailNum();
-
-                //if (numOfEmailsFromServer == num)
-                //    return;
-                numOfEmailsFromServer = num;
+               
                 ChangeStatus("Emails on server: " + num);
                 
                 int numOfNewEmails = 0;
@@ -72,8 +59,6 @@ namespace EmailClient.Panels
                     {
                         Email email = Email.Parse(pop3Client.GetEmail(i));
                         emailSystem.SaveEmailToInbox(UID, email.sender, emailAddress, email.subject, email.body, Email.String2DateTime(email.date));
-                        //pop3Client.DeleteEmail(i);
-                        //AddEmailToListView(email);
                         UpdateListView();
                         numOfNewEmails++;
                         
@@ -81,8 +66,6 @@ namespace EmailClient.Panels
                     pop3Client.DeleteEmail(i);
 
                 }
-
-
                 ChangeStatus("completed");
                 pop3Client.Disconnect();
             }
@@ -97,7 +80,7 @@ namespace EmailClient.Panels
         {
             // get email from database, dateTime asc
             List<Email> localEmails = emailSystem.FindReceivedEmailsByUser(emailAddress);
-            numOfEmailsFromLocal = localEmails.Count;
+       
 
             // update messageIds
             for (int i = 0; i < localEmails.Count; i++)
@@ -131,20 +114,16 @@ namespace EmailClient.Panels
             item.SubItems.Add(email.date);
             Action action = () => { InboxListView.Items.Add(item); };
             Invoke(action);
-            //numOfEmailsFromLocal++;
+           
 
         }
 
         private void Setup()
         {
             InboxListView.FullRowSelect = true;
-            
-            //InboxListView.GridLines = true;
+         
             InboxListView.View = View.Details;
-            //InboxListView.Columns.Add("发送者", -100, HorizontalAlignment.Left);
-            //InboxListView.Columns.Add("主题", -120, HorizontalAlignment.Left);
-            //InboxListView.Columns.Add("时间", -100, HorizontalAlignment.Left);
-            //InboxListView.Show();
+           
         }
 
         
@@ -162,7 +141,7 @@ namespace EmailClient.Panels
                 MessageBox.Show("error: email not found");
                 return;
             }
-            DisplayForm disp = new DisplayForm(new Sender() { sender = email.sender }, email.subject, email.body);
+            DisplayForm disp = new DisplayForm(new Sender() { sender = email.sender }, email.subject, email.body, email.date, "");
             disp.Show();
         }
 
@@ -195,13 +174,7 @@ namespace EmailClient.Panels
             }
             emailSystem.DeleteEmailFromInbox(Ids[InboxListView.SelectedIndices[0]]);
 
-            //messageIds.RemoveAt(numOfEmailsFromLocal - 1 - InboxListView.SelectedIndices[0]);
             UpdateListView();
-            //InboxListView.Items.RemoveAt(InboxListView.SelectedIndices[0]);
-            
-            numOfEmailsFromLocal--;
-            numOfEmailsFromServer = 0;
-            
             MessageBox.Show("成功删除邮件", "提示", MessageBoxButtons.OK);
         }
     }

@@ -31,11 +31,8 @@ namespace EmailClient.Panels
             emailSystem = new EmailSystem();
             Ids = new Dictionary<int, string>();
             OutboxListView.FullRowSelect = true;
-
-            //InboxListView.GridLines = true;
             OutboxListView.View = View.Details;
             UpdateListView();
-
         }
 
         void AddEmailToListView(Email email)
@@ -80,7 +77,7 @@ namespace EmailClient.Panels
                 MessageBox.Show("error: email not found");
                 return;
             }
-            DisplayForm disp = new DisplayForm(new Receiver() { receiver = email.receiver }, email.subject, email.body);
+            DisplayForm disp = new DisplayForm(new Receiver() { receiver = email.receiver }, email.subject, email.body, email.date, email.attachment);
             disp.Show();
         }
 

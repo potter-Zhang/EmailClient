@@ -59,7 +59,7 @@ namespace EmailClient
         public void CreateTables()
         {
             string createInbox = "CREATE TABLE IF NOT EXISTS Inbox (ID TEXT PRIMARY KEY, Sender TEXT, Recipient TEXT, Subject TEXT, Body TEXT, DateTime DATETIME);";
-            string createOutbox = "CREATE TABLE IF NOT EXISTS Outbox (ID TEXT PRIMARY KEY, Sender TEXT, Recipient TEXT, Subject TEXT, Body TEXT, DateTime DATETIME);";
+            string createOutbox = "CREATE TABLE IF NOT EXISTS Outbox (ID TEXT PRIMARY KEY, Sender TEXT, Recipient TEXT, Subject TEXT, Body TEXT, DateTime DATETIME, Attachment TEXT);";
             string createUsers = "CREATE TABLE IF NOT EXISTS Users (Username TEXT NOT NULL, Password TEXT NOT NULL);";
 
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -82,9 +82,9 @@ namespace EmailClient
                 }
             }
         }
-        public void SaveEmailToOutbox(string id, string sender, string recipient, string subject, string body, DateTime date)
+        public void SaveEmailToOutbox(string id, string sender, string recipient, string subject, string body, DateTime date, string attachment)
         {
-            string insertEmailQuery = "INSERT INTO Outbox (Id, Sender, Recipient, Subject, Body, DateTime) VALUES (@Id, @Sender, @Recipient, @Subject, @Body, @DateTime)";
+            string insertEmailQuery = "INSERT INTO Outbox (Id, Sender, Recipient, Subject, Body, DateTime, Attachment) VALUES (@Id, @Sender, @Recipient, @Subject, @Body, @DateTime, @Attachment)";
 
             using (var connection = new SQLiteConnection(ConnectionString))
             {
@@ -97,8 +97,8 @@ namespace EmailClient
                     command.Parameters.AddWithValue("@Recipient", recipient);
                     command.Parameters.AddWithValue("@Subject", subject);
                     command.Parameters.AddWithValue("@Body", body);
-                    command.Parameters.AddWithValue("@DateTime", date); 
-
+                    command.Parameters.AddWithValue("@DateTime", date);
+                    command.Parameters.AddWithValue("@Attachment", attachment);
                     command.ExecuteNonQuery();
                 }
             }
@@ -213,8 +213,9 @@ namespace EmailClient
                             string subject = reader.GetString(3);
                             string body = reader.GetString(4);
                             DateTime dateTime = reader.GetDateTime(5);
+                            string attachment = reader.GetString(6);
 
-                            Email email = new Email(id, sender, receiver, dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss zz00"), subject, body);
+                            Email email = new Email(id, sender, receiver, dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss zz00"), subject, body, attachment);
                             return email;
                         }
                     }
@@ -226,7 +227,7 @@ namespace EmailClient
 
         public List<Email> FindSentEmailsByUser(string userEmail)
         {
-            string selectEmailsQuery = "SELECT Id, Sender, Subject, DateTime FROM Outbox WHERE Sender = @UserEmail ORDER BY DateTime DESC";
+            string selectEmailsQuery = "SELECT Id, Sender, Subject, DateTime, Attachment FROM Outbox WHERE Sender = @UserEmail ORDER BY DateTime DESC";
 
             List<Email> emails = new List<Email>();
 
@@ -246,8 +247,8 @@ namespace EmailClient
                             string sender = reader.GetString(1);
                             string subject = reader.GetString(2);
                             DateTime dateTime = reader.GetDateTime(3);
-
-                            Email email = new Email(id, sender, userEmail, dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss zz00"), subject, "");
+                            string attachment = reader.GetString(4);
+                            Email email = new Email(id, sender, userEmail, dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss zz00"), subject, "", attachment);
                             emails.Add(email);
                         }
                     }
