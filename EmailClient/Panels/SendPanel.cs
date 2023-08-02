@@ -15,15 +15,17 @@ namespace EmailClient.Panels
     {
         string emailAddress;
         string password;
+        
         SmtpClient smtpClient;
         EmailSystem emailSystem;
 
-        public SendPanel(string emailAddress, string password)
+        public SendPanel(string emailAddress, string password, string smtpServer, int smtpPort)
         {
             InitializeComponent();
             this.emailAddress = emailAddress;
             this.password = password;
-            smtpClient = new SmtpClient("smtp.qq.com", 465);
+           
+            smtpClient = new SmtpClient(smtpServer, smtpPort);
             emailSystem = new EmailSystem();
         }
 
