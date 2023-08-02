@@ -19,26 +19,15 @@ namespace EmailClient
     public class SmtpClient
     {
         private SslStream _secureSocket;
-        //private Socket _socket;
         private byte[] _buffer;
-     
         private string _server;
         private int _port;
         private const string _endLine = "\r\n";
-
-        //2976857809@qq.com
-        //2976857809@qq.com
-
         public SmtpClient(string server, int port) 
         {
-           
             _buffer = new byte[256];
-        
             _server = server;
             _port = port;
-                
-           
-          
         }
 
         private string Base64Encode(string s)
@@ -50,13 +39,10 @@ namespace EmailClient
         public void Connect(string emailAddress, string password)
         {
             _secureSocket = SocketHelper.GetSocket(_server, _port);//("smtp.qq.com", 465);
-            SendCommand("EHLO EmailService");
+            SendCommand("EHLO " + Dns.GetHostName());
             ReceiveResponse();
-
             SendCommand("AUTH PLAIN " + Base64Encode("\0" + emailAddress + "\0" + password));
             ReceiveResponse();
-            
-       
         }
 
         public void Disconnect()
@@ -66,7 +52,7 @@ namespace EmailClient
             _secureSocket.Close();
         }
 
-        public string SendEmail(string from, string password, string to, string subject, string text)
+        public string SendEmail(string from, string password, string to, string subject, string text, List<Attachment> attachments)
         {
             
             Connect(from, password);
@@ -82,7 +68,8 @@ namespace EmailClient
                 from,
                 to,
                 subject,
-                text
+                text,
+                attachments
                 ));
             SendCommand(".");
             ReceiveResponse();

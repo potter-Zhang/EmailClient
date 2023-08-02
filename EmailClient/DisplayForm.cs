@@ -16,22 +16,26 @@ namespace EmailClient
     public struct Receiver { public string receiver; }
     public partial class DisplayForm : Form
     {
-        public DisplayForm(Sender s, string subject, string body)
+        public DisplayForm(Sender s, string subject, string body, string date, string attachment)
         {
             InitializeComponent();
             MailLabel.Text = "寄件人";
             MailTextBox.Text = s.sender;
             SubjectTextBox.Text = subject;
             ContentRichTextBox.Text = body;
+            DateTextBox.Text = date;
+            AttachmentTextBox.Text = attachment;
         }
 
-        public DisplayForm(Receiver r, string subject, string body)
+        public DisplayForm(Receiver r, string subject, string body, string date, string attachment)
         {
             InitializeComponent();
             MailLabel.Text = "收件人";
             MailTextBox.Text = r.receiver;
             SubjectTextBox.Text = subject;
             ContentRichTextBox.Text = body;
+            DateTextBox.Text = date;
+            AttachmentTextBox.Text = attachment;
         }
 
 
