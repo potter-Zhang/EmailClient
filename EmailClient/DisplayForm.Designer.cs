@@ -33,21 +33,25 @@
             this.SubjectLabel = new System.Windows.Forms.Label();
             this.MailTextBox = new System.Windows.Forms.TextBox();
             this.MailLabel = new System.Windows.Forms.Label();
+            this.DateLabel = new System.Windows.Forms.Label();
+            this.DateTextBox = new System.Windows.Forms.TextBox();
+            this.AttachmentLabel = new System.Windows.Forms.Label();
+            this.AttachmentTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ContentRichTextBox
             // 
-            this.ContentRichTextBox.Location = new System.Drawing.Point(59, 156);
+            this.ContentRichTextBox.Location = new System.Drawing.Point(59, 210);
             this.ContentRichTextBox.Name = "ContentRichTextBox";
             this.ContentRichTextBox.ReadOnly = true;
-            this.ContentRichTextBox.Size = new System.Drawing.Size(576, 282);
+            this.ContentRichTextBox.Size = new System.Drawing.Size(576, 228);
             this.ContentRichTextBox.TabIndex = 14;
             this.ContentRichTextBox.Text = "";
             this.ContentRichTextBox.TextChanged += new System.EventHandler(this.ContentRichTextBox_TextChanged);
             // 
             // SubjectTextBox
             // 
-            this.SubjectTextBox.Location = new System.Drawing.Point(238, 78);
+            this.SubjectTextBox.Location = new System.Drawing.Point(238, 68);
             this.SubjectTextBox.Name = "SubjectTextBox";
             this.SubjectTextBox.ReadOnly = true;
             this.SubjectTextBox.Size = new System.Drawing.Size(274, 30);
@@ -56,7 +60,7 @@
             // SubjectLabel
             // 
             this.SubjectLabel.AutoSize = true;
-            this.SubjectLabel.Location = new System.Drawing.Point(123, 81);
+            this.SubjectLabel.Location = new System.Drawing.Point(123, 71);
             this.SubjectLabel.Name = "SubjectLabel";
             this.SubjectLabel.Size = new System.Drawing.Size(64, 24);
             this.SubjectLabel.TabIndex = 12;
@@ -79,11 +83,49 @@
             this.MailLabel.TabIndex = 10;
             this.MailLabel.Text = "寄件人：";
             // 
+            // DateLabel
+            // 
+            this.DateLabel.AutoSize = true;
+            this.DateLabel.Location = new System.Drawing.Point(124, 116);
+            this.DateLabel.Name = "DateLabel";
+            this.DateLabel.Size = new System.Drawing.Size(64, 24);
+            this.DateLabel.TabIndex = 15;
+            this.DateLabel.Text = "时间：";
+            // 
+            // DateTextBox
+            // 
+            this.DateTextBox.Location = new System.Drawing.Point(238, 116);
+            this.DateTextBox.Name = "DateTextBox";
+            this.DateTextBox.ReadOnly = true;
+            this.DateTextBox.Size = new System.Drawing.Size(274, 30);
+            this.DateTextBox.TabIndex = 16;
+            // 
+            // AttachmentLabel
+            // 
+            this.AttachmentLabel.AutoSize = true;
+            this.AttachmentLabel.Location = new System.Drawing.Point(123, 166);
+            this.AttachmentLabel.Name = "AttachmentLabel";
+            this.AttachmentLabel.Size = new System.Drawing.Size(64, 24);
+            this.AttachmentLabel.TabIndex = 17;
+            this.AttachmentLabel.Text = "附件：";
+            // 
+            // AttachmentTextBox
+            // 
+            this.AttachmentTextBox.Location = new System.Drawing.Point(238, 166);
+            this.AttachmentTextBox.Name = "AttachmentTextBox";
+            this.AttachmentTextBox.ReadOnly = true;
+            this.AttachmentTextBox.Size = new System.Drawing.Size(274, 30);
+            this.AttachmentTextBox.TabIndex = 18;
+            // 
             // DisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(698, 450);
+            this.Controls.Add(this.AttachmentTextBox);
+            this.Controls.Add(this.AttachmentLabel);
+            this.Controls.Add(this.DateTextBox);
+            this.Controls.Add(this.DateLabel);
             this.Controls.Add(this.ContentRichTextBox);
             this.Controls.Add(this.SubjectTextBox);
             this.Controls.Add(this.SubjectLabel);
@@ -103,5 +145,9 @@
         private Label SubjectLabel;
         private TextBox MailTextBox;
         private Label MailLabel;
+        private Label DateLabel;
+        private TextBox DateTextBox;
+        private Label AttachmentLabel;
+        private TextBox AttachmentTextBox;
     }
 }

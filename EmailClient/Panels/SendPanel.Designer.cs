@@ -34,45 +34,51 @@
             this.SubjectLabel = new System.Windows.Forms.Label();
             this.ContentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.SendButton = new System.Windows.Forms.Button();
+            this.AttachmentLabel = new System.Windows.Forms.Label();
+            this.AttachmentTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ToLabel
             // 
             this.ToLabel.AutoSize = true;
-            this.ToLabel.Location = new System.Drawing.Point(123, 36);
+            this.ToLabel.Location = new System.Drawing.Point(140, 37);
             this.ToLabel.Name = "ToLabel";
             this.ToLabel.Size = new System.Drawing.Size(82, 24);
             this.ToLabel.TabIndex = 0;
             this.ToLabel.Text = "收件人：";
+            this.ToLabel.Click += new System.EventHandler(this.ToLabel_Click);
             // 
             // ToTextBox
             // 
-            this.ToTextBox.Location = new System.Drawing.Point(238, 33);
+            this.ToTextBox.Location = new System.Drawing.Point(255, 34);
             this.ToTextBox.Name = "ToTextBox";
             this.ToTextBox.Size = new System.Drawing.Size(274, 30);
             this.ToTextBox.TabIndex = 1;
+            this.ToTextBox.TextChanged += new System.EventHandler(this.ToTextBox_TextChanged);
             // 
             // SubjectTextBox
             // 
-            this.SubjectTextBox.Location = new System.Drawing.Point(238, 94);
+            this.SubjectTextBox.Location = new System.Drawing.Point(255, 80);
             this.SubjectTextBox.Name = "SubjectTextBox";
             this.SubjectTextBox.Size = new System.Drawing.Size(274, 30);
             this.SubjectTextBox.TabIndex = 3;
+            this.SubjectTextBox.TextChanged += new System.EventHandler(this.SubjectTextBox_TextChanged);
             // 
             // SubjectLabel
             // 
             this.SubjectLabel.AutoSize = true;
-            this.SubjectLabel.Location = new System.Drawing.Point(123, 97);
+            this.SubjectLabel.Location = new System.Drawing.Point(140, 86);
             this.SubjectLabel.Name = "SubjectLabel";
             this.SubjectLabel.Size = new System.Drawing.Size(64, 24);
             this.SubjectLabel.TabIndex = 2;
             this.SubjectLabel.Text = "主题：";
+            this.SubjectLabel.Click += new System.EventHandler(this.SubjectLabel_Click);
             // 
             // ContentRichTextBox
             // 
-            this.ContentRichTextBox.Location = new System.Drawing.Point(59, 172);
+            this.ContentRichTextBox.Location = new System.Drawing.Point(59, 191);
             this.ContentRichTextBox.Name = "ContentRichTextBox";
-            this.ContentRichTextBox.Size = new System.Drawing.Size(576, 282);
+            this.ContentRichTextBox.Size = new System.Drawing.Size(576, 263);
             this.ContentRichTextBox.TabIndex = 4;
             this.ContentRichTextBox.Text = "";
             // 
@@ -86,10 +92,32 @@
             this.SendButton.UseVisualStyleBackColor = true;
             this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
             // 
+            // AttachmentLabel
+            // 
+            this.AttachmentLabel.AutoSize = true;
+            this.AttachmentLabel.Location = new System.Drawing.Point(140, 134);
+            this.AttachmentLabel.Name = "AttachmentLabel";
+            this.AttachmentLabel.Size = new System.Drawing.Size(64, 24);
+            this.AttachmentLabel.TabIndex = 7;
+            this.AttachmentLabel.Text = "附件：";
+            this.AttachmentLabel.Click += new System.EventHandler(this.AttachmentLabel_Click);
+            // 
+            // AttachmentTextBox
+            // 
+            this.AttachmentTextBox.Location = new System.Drawing.Point(255, 134);
+            this.AttachmentTextBox.Name = "AttachmentTextBox";
+            this.AttachmentTextBox.ReadOnly = true;
+            this.AttachmentTextBox.Size = new System.Drawing.Size(274, 30);
+            this.AttachmentTextBox.TabIndex = 9;
+            this.AttachmentTextBox.Click += new System.EventHandler(this.AttachmentTextBox_Click);
+            this.AttachmentTextBox.TextChanged += new System.EventHandler(this.AttachmentTextBox_TextChanged);
+            // 
             // SendPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.AttachmentTextBox);
+            this.Controls.Add(this.AttachmentLabel);
             this.Controls.Add(this.SendButton);
             this.Controls.Add(this.ContentRichTextBox);
             this.Controls.Add(this.SubjectTextBox);
@@ -111,5 +139,7 @@
         private Label SubjectLabel;
         private RichTextBox ContentRichTextBox;
         private Button SendButton;
+        private Label AttachmentLabel;
+        private TextBox AttachmentTextBox;
     }
 }
