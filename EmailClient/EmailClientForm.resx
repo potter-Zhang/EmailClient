@@ -61,10 +61,12 @@
   <data name="AccountButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAiCAYAAAAtZZsLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAd
-        hQAAHYUB8Bsy7AAAAKZJREFUWEftjgEKhDAMBP3/p3UDDa6loGlzsKcZGEoCDbOBXdzhUsnhUslzUIGb
-        YF5gxg2Dm2AFhuEmWIFhuAlWYBhughUYhptgBYbhJvjiwP7P3fwU72nOBxr8r7+xcpP8TeDsPcN7mmuB
-        hv/t31m8p/mBQMP/r94xuAnmBBoZNwxugnmBWXAT/KNAUc9BBW6CFRiGm2AFhuEmeBkUHS6VHC5F3PYD
-        jf2pKqHOho4AAAAASUVORK5CYII=
+        hQAAHYUB8Bsy7AAAARJJREFUWEfNjUGSw0AIxPL/T2cTauMag4DGnoNVpUMUpv368H64GJ8kxpEd9GYg
+        xtar0FYjxtK70GYhRnQ39A0QY1BhxxsQY7CDbtR3jRhPdlQ36vtCjIcdO28SMR527LxJxGgqKHeTLRCj
+        qaDcTbZAjKZKdTvdATH+P9GhN1d3nCGYU2jj6xTYCMFU6e6v7i2GYCqod18mm84QzA7lxqPuOkMwK7r/
+        K5RtZwhmRfd/hbLtDMHMqP5TyTbW7y9iNImsT6i2QYymh9pVsn0Q4+GK/30H2k7EeLjif9+BthMxnvwN
+        7GbdLsR48jeym3W7ECO6G/oGiDF1J7QPYiy9C20WYpScQhuCGEd20JuBGB/i6/0Hdq47fOOWVJwAAAAA
+        SUVORK5CYII=
 </value>
   </data>
   <data name="InboxButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

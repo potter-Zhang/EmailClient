@@ -47,7 +47,7 @@ namespace EmailClient
             return Convert.ToBase64String(bytes);
         }
 
-        private void Connect(string emailAddress, string password)
+        public void Connect(string emailAddress, string password)
         {
             _secureSocket = SocketHelper.GetSocket(_server, _port);//("smtp.qq.com", 465);
             SendCommand("EHLO EmailService");
@@ -57,6 +57,13 @@ namespace EmailClient
             ReceiveResponse();
             
        
+        }
+
+        public void Disconnect()
+        {
+            SendCommand("QUIT");
+            ReceiveResponse();
+            _secureSocket.Close();
         }
 
         public string SendEmail(string from, string password, string to, string subject, string text)
