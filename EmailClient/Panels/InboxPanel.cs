@@ -29,7 +29,7 @@ namespace EmailClient.Panels
         Task task;
 
        
-        public InboxPanel(string emailAddress, string password)
+        public InboxPanel(string emailAddress, string password, string pop3Server, int pop3Port)
         {
             InitializeComponent();
             Setup();
@@ -38,7 +38,7 @@ namespace EmailClient.Panels
             
             messageIds = new List<string>();
             
-            pop3Client = new Pop3Client("pop.qq.com", 995);
+            pop3Client = new Pop3Client(pop3Server, pop3Port);
             //pop3Client.Connect(emailAddress, password);
             emailSystem = new EmailSystem();
             Ids = new Dictionary<int, string>();

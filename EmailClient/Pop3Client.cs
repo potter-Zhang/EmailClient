@@ -151,8 +151,12 @@ namespace EmailClient
 
             } while (bytesRead == bufSize);
 
-
-            return responseBuilder.ToString();
+            string res = responseBuilder.ToString();
+            if (res.StartsWith("-ERR"))
+            {
+                throw new Exception(res);
+            }
+            return res;
         }
 
         public void Disconnect()//断开连接

@@ -28,7 +28,7 @@ namespace EmailClient
 
         bool AccountExist()
         {
-            return loginPanel.userEmailAddress != string.Empty && loginPanel.userPassword != string.Empty;
+            return loginPanel.login;
         }
 
         private void SwitchPanel(string panelName)
@@ -48,23 +48,21 @@ namespace EmailClient
                     Layout.Panel2.Controls.Add(loginPanel);
                     break;
                 case "SendPanel":
-                    SendPanel sendPanel = new SendPanel(loginPanel.userEmailAddress, loginPanel.userPassword);
+                    SendPanel sendPanel = new SendPanel(loginPanel.userEmailAddress, loginPanel.userPassword, loginPanel.smtpServer, loginPanel.smtpPort);
                     sendPanel.Show();
                     Layout.Panel2.Controls.Add(sendPanel);
                     break;
                 case "InboxPanel":
-                    if (inboxPanel == null)
-                        inboxPanel = new InboxPanel(loginPanel.userEmailAddress, loginPanel.userPassword);
+                    
+                    inboxPanel = new InboxPanel(loginPanel.userEmailAddress, loginPanel.userPassword, loginPanel.pop3Server, loginPanel.pop3Port);
                     inboxPanel.Show();
                     Layout.Panel2.Controls.Add(inboxPanel);
                     break;
-                //inboxPanel.FetchEmail();
-                //t.Start();
+                
                 case "OutboxPanel":
                     outboxPanel = new OutboxPanel(loginPanel.userEmailAddress);
                     outboxPanel.Show();
                     Layout.Panel2.Controls.Add(outboxPanel);
-                    //outboxPanel.UpdateListView();
                     
                     break;
                 default:
